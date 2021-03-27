@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./app",
+        "paths": {
+            "@libs/*": ["libs/*"],
+            "@schema/*": ["schema/*"],
+            "@socket/*": ["socket/*"]
+        }
+    }
+}
