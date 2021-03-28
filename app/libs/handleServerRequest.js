@@ -4,6 +4,7 @@ const http = require("http");
 const initSocket = require("../socket");
 const path = require("path");
 const { getIndex, getApiData, getSingleLog } = require("../controller");
+const { log } = require("../utils");
 
 function handleServerRequest(options, app) {
   const { port, server, baseURL } = options;
@@ -11,7 +12,9 @@ function handleServerRequest(options, app) {
   // If port is provided, serve all requests only on the provided port
   if (port && typeof port === "number") {
     const argusServer = http.Server(argusExpressServer);
-    argusServer.listen(port);
+    argusServer.listen(port, () =>
+      log("Argus server listening on port: %s", port).info()
+    );
 
     initSocket(argusServer, baseURL);
 

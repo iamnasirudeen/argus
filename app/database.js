@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const chalk = require("chalk");
+const { log } = require("./utils");
 
 module.exports = async function ({ _, database }) {
   mongoose.Promise = global.Promise;
@@ -10,22 +10,14 @@ module.exports = async function ({ _, database }) {
       useFindAndModify: false,
       useUnifiedTopology: true,
     });
-    console.log(
-      `${chalk.green("✓")} ${chalk.bold(
-        chalk.gray(
-          `Logger connected to "${connection.name}" database at ${connection.host}:${connection.port}`
-        )
-      )}`
-    );
+    log(
+      `Argus connected to "${connection.name}" database at ${connection.host}:${connection.port}`
+    ).info();
     return connection;
   } catch (error) {
-    console.log(
-      `${chalk.red("X")} ${chalk.bold(
-        chalk.gray(
-          `%s MongoDB connection error. Please make sure MongoDB is running.`
-        )
-      )}`
-    );
+    log(
+      `%s MongoDB connection error. Please make sure MongoDB is running.`
+    ).error();
     console.log(error);
     process.exit(1);
   }
