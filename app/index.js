@@ -2,9 +2,9 @@ const { responseTime } = require("./libs/responseTime");
 const http = require("http");
 const initSocket = require("./socket/index");
 const db = require("./database");
-const path = require("path");
+const { getIndex, getApiData } = require("./controller");
 
-function logify(app, { database }) {
+function logify(app, { database, adminUrl = "/horus" }) {
   // Initialize database first
   db({ app, database })
     .then(() => {
@@ -13,10 +13,9 @@ function logify(app, { database }) {
     })
     .catch((error) => console.error(error));
 
-  app.use(responseTime);
-  app.all("/horus", (req, res) =>
-    res.sendFile(path.join(__dirname, "static", "index.html"))
-  );
+  app.use(responseTime(adminUrl));
+  app.get(adminUrl + "/", getIndex);
+  app.get(adminUrl + "/api/logs", getApiData);
 }
 
 module.exports = logify;

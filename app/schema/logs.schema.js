@@ -6,7 +6,7 @@ const logSchema = new Schema(
       method: String,
       url: String,
       path: String,
-      duration: Number,
+      duration: String,
       timestamp: Date,
       hostname: String,
       body: Array,

@@ -1,7 +1,8 @@
 const { notifyClient } = require("../socket/events/listeners/notification");
 const { getIpAddress } = require("../utils");
+const { Logs } = require("../schema/logs.schema");
 
-function logger(req, res, next, responseTime) {
+async function logger(req, res, next, responseTime) {
   const responseBody = res._responseJson || res._responseStr;
 
   const payload = {
@@ -21,8 +22,9 @@ function logger(req, res, next, responseTime) {
       body: [responseBody],
     },
   };
+  const logInfo = await Logs.create(payload);
 
-  console.log(payload);
+  console.log(logInfo);
 
   notifyClient(payload);
 
