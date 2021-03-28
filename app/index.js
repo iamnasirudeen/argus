@@ -1,24 +1,22 @@
-const { logger } = require("./libs/logger");
+const { responseTime } = require("./libs/responseTime");
 const http = require("http");
 const initSocket = require("./socket/index");
 const db = require("./database");
+const path = require("path");
 
-const middlewares = [logger];
-
-function logify({ app, database }) {
+function logify(app, { database }) {
   // Initialize database first
   db({ app, database })
     .then(() => {
-      // Register middlewares
-      middlewares.map((middleware) => app.use(middleware));
-
-      console.log(app);
-
       const server = http.Server(app);
-
       initSocket(server);
     })
     .catch((error) => console.error(error));
+
+  app.use(responseTime);
+  app.all("/horus", (req, res) =>
+    res.sendFile(path.join(__dirname, "static", "index.html"))
+  );
 }
 
 module.exports = logify;

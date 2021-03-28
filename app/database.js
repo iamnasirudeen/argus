@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const chalk = require("chalk");
 
-module.exports = async function ({ app, database }) {
+module.exports = async function ({ _, database }) {
   mongoose.Promise = global.Promise;
   try {
     const { connection } = await mongoose.connect(database, {

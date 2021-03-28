@@ -4,16 +4,20 @@ const logSchema = new Schema(
   {
     request: {
       method: String,
+      url: String,
       path: String,
       duration: Number,
       timestamp: Date,
-      host: String,
-      body: String,
+      hostname: String,
+      body: Array,
       headers: String,
       ipAddress: String,
+      localAddress: String,
+      localPort: String,
     },
     response: {
       status: Number,
+      body: Array,
     },
   },
   { timestamps: true }

@@ -25,31 +25,6 @@ class UserManager extends ManagerBase {
   constructor(ioInstance) {
     return super(ioInstance);
   }
-  /**
-   * Store a user data against the userId
-   * @param {String} User ID of the socket a client connected with;
-   * @param {Object} userData Data of the user as in the Database
-   */
-  addUser(userId, socket) {
-    this.usersMap.set(userId, socket);
-    return this.getUser(userId);
-  }
-
-  /**
-   * Removes a user from the user map
-   * @param socketId {String} SocketId of the user
-   */
-  removeUser(userId = "") {
-    this.usersMap.delete(userId);
-  }
-
-  getUser(userId = "") {
-    return this.usersMap.get(userId);
-  }
-
-  getUsers() {
-    return this.usersMap.entries();
-  }
 
   /**
    * Returns the socket instance
