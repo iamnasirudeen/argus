@@ -16,6 +16,8 @@ async function logger(req, res, next, responseTime) {
       localPort: req.connection.localPort,
       body: req.body ? [req.body] : undefined,
       ipAddress: getIpAddress(req),
+      method: req.method,
+      headers: req.headers,
     },
     response: {
       status: res.statusCode,
@@ -26,7 +28,7 @@ async function logger(req, res, next, responseTime) {
 
   console.log(logInfo);
 
-  notifyClient(payload);
+  notifyClient(logInfo);
 
   return next();
 }

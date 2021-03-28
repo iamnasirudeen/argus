@@ -10,7 +10,7 @@ const logSchema = new Schema(
       timestamp: Date,
       hostname: String,
       body: Array,
-      headers: String,
+      headers: Array,
       ipAddress: String,
       localAddress: String,
       localPort: String,

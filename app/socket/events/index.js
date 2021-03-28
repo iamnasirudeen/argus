@@ -1,7 +1,7 @@
 const events = (io) => {
-  io.on("connection", (socket) => {
+  io.of("/argus").on("connection", (socket) => {
     // Join all socket to a default room
-    socket.join("notifications");
+    socket.join("argus::notifications");
   });
   return io;
 };
