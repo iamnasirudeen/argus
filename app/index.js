@@ -7,21 +7,25 @@ const cors = require("cors");
 const express = require("express");
 const path = require("path");
 
+const expressApp = express();
+
 function logify(app, { database, port = 9900 }) {
   // Initialize database first
   db({ app, database })
     .then(() => {
-      const server = http.Server(app);
+      const argusServer = http.Server(expressApp);
 
-      // Listening on a port is needed so the socket server can know where to pick requests from
       if (port && typeof port === "number") {
-        server.listen(port);
+        argusServer.listen(port);
       }
 
       // Initialize socket
-      initSocket(server);
+      initSocket(argusServer);
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
 
   const adminUrl = "/argus";
 
@@ -29,14 +33,14 @@ function logify(app, { database, port = 9900 }) {
 
   // Use cors in dev mode
   if (process.env.NODE_ENV === "development") {
-    app.use(cors());
+    expressApp.use(cors());
   }
 
-  app.use(adminUrl, express.static(path.join(__dirname, "static")));
+  expressApp.use(adminUrl, express.static(path.join(__dirname, "static")));
 
-  app.get(adminUrl + "/", getIndex);
-  app.get(adminUrl + "/api/logs", getApiData);
-  app.get(adminUrl + "/api/logs/:logId", getSingleLog);
+  expressApp.get(adminUrl, getIndex);
+  expressApp.get(adminUrl + "/api/logs", getApiData);
+  expressApp.get(adminUrl + "/api/logs/:logId", getSingleLog);
 }
 
 module.exports = logify;
