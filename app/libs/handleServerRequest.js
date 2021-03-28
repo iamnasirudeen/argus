@@ -13,7 +13,7 @@ function handleServerRequest(options, app) {
     const argusServer = http.Server(argusExpressServer);
     argusServer.listen(port);
 
-    initSocket(argusServer);
+    initSocket(argusServer, baseURL);
 
     // Register all middlewares
     argusExpressServer.use(
@@ -28,7 +28,7 @@ function handleServerRequest(options, app) {
 
   // if port is not provided, run on the deafult express application port
   if (!port) {
-    initSocket(server);
+    initSocket(server, baseURL);
 
     // Register all middlewares
     app.use(baseURL, express.static(path.join(__dirname, "..", "static")));

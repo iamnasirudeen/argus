@@ -11,4 +11,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-exports.User = model("User", userSchema);
+exports.User = model("Argus::user", userSchema);

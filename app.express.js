@@ -15,6 +15,9 @@ logify(app, {
   baseURL: "/logs",
 });
 
+app.use(express.json());
+
 app.get("/", (req, res) => res.send("Hello world"));
+app.post("/hi", (req, res) => res.send(req.body));
 
 module.exports = app;

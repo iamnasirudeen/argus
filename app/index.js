@@ -7,14 +7,14 @@ function logify(app, { database, port, server, baseURL }) {
   // Initialize database first
   db({ app, database })
     .then(() => {
-      handleServerRequest({ port, server, baseURL: "/argus" }, app);
+      handleServerRequest({ port, server, baseURL }, app);
     })
     .catch((error) => {
       console.error(error);
       process.exit(1);
     });
 
-  app.use(responseTime("/argus"));
+  app.use(responseTime(baseURL, port));
 
   // // Use cors in dev mode
   // if (process.env.NODE_ENV === "development") {

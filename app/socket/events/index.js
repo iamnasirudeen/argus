@@ -1,5 +1,5 @@
-const events = (io) => {
-  io.of("/argus").on("connection", (socket) => {
+const events = (io, baseURL) => {
+  io.on("connection", (socket) => {
     // Join all socket to a default room
     socket.join("argus::notifications");
   });
