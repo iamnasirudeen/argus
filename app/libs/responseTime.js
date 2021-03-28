@@ -4,7 +4,7 @@ const { getResponseBody } = require("./response");
 function responseTime(adminUrl) {
   return function (req, res, next) {
     // Dont record any request coming to the logger directly
-    //if (req.url.includes(adminUrl)) return next();
+    if (req.url.includes(adminUrl)) return next();
     const startHrTime = process.hrtime();
 
     getResponseBody(req, res, next);
