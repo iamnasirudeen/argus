@@ -13,7 +13,7 @@ function handleServerRequest(options, app) {
   if (port && typeof port === "number") {
     const argusServer = http.Server(argusExpressServer);
     argusServer.listen(port, () =>
-      log("Argus server listening on port: %s", port).info()
+      log(`Argus server listening on port: ${port}`).info()
     );
 
     initSocket(argusServer, baseURL);

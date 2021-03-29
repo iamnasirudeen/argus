@@ -26,8 +26,6 @@ async function logger(req, res, next, responseTime) {
   };
   const logInfo = await Logs.create(payload);
 
-  console.log(logInfo);
-
   notifyClient(logInfo);
 
   return next();

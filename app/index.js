@@ -1,6 +1,6 @@
 const { responseTime } = require("./libs/responseTime");
 const db = require("./database");
-const cors = require("cors");
+//const cors = require("cors");
 const { handleServerRequest } = require("./libs/handleServerRequest");
 
 function logify(app, { database, port, server, baseURL }) {
