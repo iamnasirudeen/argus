@@ -1,4 +1,5 @@
 const chalk = require("chalk");
+const argusManager = require("../libs/argusManager");
 
 function getIpAddress(req) {
   const xForwardedFor = (req.headers["x-forwarded-for"] || "").replace(
@@ -22,5 +23,17 @@ function log(value) {
   return { info, error };
 }
 
+function compareLoginDetails(formData) {
+  const authentcationDetails = argusManager.getConfigValue("authentication");
+
+  if (
+    formData.email.trim() === authentcationDetails.email.trim() &&
+    formData.password.trim() === authentcationDetails.password.trim()
+  )
+    return true;
+  else return false;
+}
+
 exports.getIpAddress = getIpAddress;
 exports.log = log;
+exports.compareLoginDetails = compareLoginDetails;

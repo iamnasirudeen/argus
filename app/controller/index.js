@@ -1,5 +1,7 @@
 const path = require("path");
 const { Logs } = require("../schema/logs.schema");
+const argusManager = require("../libs/argusManager");
+const { compareLoginDetails } = require("../utils");
 
 function getIndex(req, res) {
   return res.sendFile(path.join(__dirname, "..", "static", "index.html"));
@@ -31,4 +33,21 @@ async function getSingleLog(req, res) {
   res.send({ data });
 }
 
-module.exports = { getIndex, getApiData, getSingleLog };
+async function signIn(req, res) {
+  const status = compareLoginDetails(req.body);
+
+  if (status) return res.send({ status: 200, message: "success" });
+  else return res.send({ status: 400, message: "Invalid login credentials" });
+}
+
+async function getAppSettings(req, res) {
+  const authentcation = argusManager.getConfigValue("authentication");
+
+  if (typeof authentcation === "boolean" && authentcation === false)
+    return res.send({ authentication: false });
+  else {
+    return res.send({ authentication: true });
+  }
+}
+
+module.exports = { getIndex, getApiData, getSingleLog, signIn, getAppSettings };

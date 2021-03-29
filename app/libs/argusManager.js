@@ -21,9 +21,27 @@ class ManagerBase {
 
 module.exports = ManagerBase;
 
-class UserManager extends ManagerBase {
+class ArgusManager extends ManagerBase {
   constructor(ioInstance) {
     return super(ioInstance);
+  }
+
+  getConfigValue(property) {
+    return this.argusConfig[property];
+  }
+
+  /**
+   * Save configuration details here
+   */
+  setArgusConfig(config) {
+    this.argusConfig = config;
+  }
+
+  /**
+   * Returns the saved config details
+   */
+  getArgusConfig() {
+    return this.argusConfig;
   }
 
   /**
@@ -43,4 +61,4 @@ class UserManager extends ManagerBase {
   }
 }
 
-module.exports = new UserManager();
+module.exports = new ArgusManager();
