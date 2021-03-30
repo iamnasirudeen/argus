@@ -3,11 +3,17 @@ const argusExpressServer = express();
 const http = require("http");
 const initSocket = require("../socket");
 const path = require("path");
-const { getIndex, getApiData, getSingleLog } = require("../controller");
+const {
+  getIndex,
+  getApiData,
+  getSingleLog,
+  getAppSettings,
+  signIn,
+} = require("../controller");
 const { log } = require("../utils");
 
 function handleServerRequest(options, app) {
-  const { port, server, baseURL } = options;
+  const { port, server, baseURL, authentication } = options;
 
   // If port is provided, serve all requests only on the provided port
   if (port && typeof port === "number") {
@@ -16,7 +22,7 @@ function handleServerRequest(options, app) {
       log(`Argus server listening on port: ${port}`).info()
     );
 
-    initSocket(argusServer, baseURL);
+    initSocket(argusServer);
 
     // Register all middlewares
     argusExpressServer.use(
@@ -26,18 +32,32 @@ function handleServerRequest(options, app) {
 
     argusExpressServer.get(baseURL, getIndex);
     argusExpressServer.get(baseURL + "/api/logs", getApiData);
+
+    // if authentication details is supplied, register the authentication route
+    if (authentication && typeof authentication !== "boolean") {
+      argusExpressServer.get(baseURL + "/api/logs/authentication", signIn);
+    }
+
+    argusExpressServer.get(baseURL + "/api/logs/config", getAppSettings);
     argusExpressServer.get(baseURL + "/api/logs/:logId", getSingleLog);
   }
 
   // if port is not provided, run on the deafult express application port
   if (!port) {
-    initSocket(server, baseURL);
+    initSocket(server);
 
     // Register all middlewares
     app.use(baseURL, express.static(path.join(__dirname, "..", "static")));
 
     app.get(baseURL, getIndex);
     app.get(baseURL + "/api/logs", getApiData);
+
+    // if authentication details is supplied, register the authentication route
+    if (authentication && typeof authentication !== "boolean") {
+      app.get(baseURL + "/api/logs/authentication", signIn);
+    }
+
+    app.get(baseURL + "/api/logs/config", getAppSettings);
     app.get(baseURL + "/api/logs/:logId", getSingleLog);
   }
 }
