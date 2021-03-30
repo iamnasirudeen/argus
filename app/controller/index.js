@@ -8,7 +8,17 @@ function getIndex(req, res) {
 }
 
 async function getApiData(req, res) {
-  let data = await Logs.find().sort({ createdAt: -1 });
+  const logsPerPage = parseInt(req.query.perPage) || 10;
+  const page = req.query.page || 1;
+
+  let data = await Logs.find({}, { request: 1, response: 1 })
+    .sort({
+      createdAt: -1,
+    })
+    .skip(logsPerPage * page - logsPerPage)
+    .limit(logsPerPage);
+
+  const totalLogs = await Logs.estimatedDocumentCount();
 
   data = data.map((data) => {
     const { request, response } = data;
@@ -22,7 +32,14 @@ async function getApiData(req, res) {
     };
   });
 
-  res.send({ data });
+  res.send({
+    data,
+    record: {
+      current: page,
+      pages: Math.ceil(totalLogs / logsPerPage),
+      total: totalLogs,
+    },
+  });
 }
 
 async function getSingleLog(req, res) {

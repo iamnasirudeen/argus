@@ -26,7 +26,13 @@ async function logger(req, res, next, responseTime) {
   };
   const logInfo = await Logs.create(payload);
 
-  notifyClient(logInfo);
+  const { request, response } = logInfo;
+
+  const total = await Logs.estimatedDocumentCount().exec();
+
+  const responsePayload = { total, request, response };
+
+  notifyClient(responsePayload);
 
   return next();
 }
