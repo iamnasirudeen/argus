@@ -8,9 +8,9 @@ const {
   getApiData,
   getSingleLog,
   getAppSettings,
+  signIn,
 } = require("../controller");
 const { log } = require("../utils");
-const { sign } = require("crypto");
 
 function handleServerRequest(options, app) {
   const { port, server, baseURL, authentication } = options;
@@ -35,7 +35,7 @@ function handleServerRequest(options, app) {
 
     // if authentication details is supplied, register the authentication route
     if (authentication && typeof authentication !== "boolean") {
-      argusExpressServer.get(baseURL + "/api/logs/authentication", sign);
+      argusExpressServer.get(baseURL + "/api/logs/authentication", signIn);
     }
 
     argusExpressServer.get(baseURL + "/api/logs/config", getAppSettings);
@@ -54,7 +54,7 @@ function handleServerRequest(options, app) {
 
     // if authentication details is supplied, register the authentication route
     if (authentication && typeof authentication !== "boolean") {
-      app.get(baseURL + "/api/logs/authentication", sign);
+      app.get(baseURL + "/api/logs/authentication", signIn);
     }
 
     app.get(baseURL + "/api/logs/config", getAppSettings);
