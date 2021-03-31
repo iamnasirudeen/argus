@@ -8,7 +8,6 @@ function getIndex(req, res) {
 }
 
 async function getApiData(req, res) {
-  const logsPerPage = parseInt(req.query.perPage) || 10;
 const { limit = 10, page = 1 } = req.query
   let data = await Logs.find({}, { request: 1, response: 1 })
     .sort({
