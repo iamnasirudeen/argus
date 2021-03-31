@@ -8,13 +8,13 @@ function getIndex(req, res) {
 }
 
 async function getApiData(req, res) {
-const { limit = 10, page = 1 } = req.query
+const { perPage = 10, page = 1 } = req.query
   let data = await Logs.find({}, { request: 1, response: 1 })
     .sort({
       createdAt: -1,
     })
-    .limit(limit)
-    .skip((page - 1) * limit)
+    .limit(Number(perPage))
+    .skip((page - 1) * perPage)
     .exec()
 
   const totalLogs = await Logs.countDocuments();
@@ -34,8 +34,8 @@ const { limit = 10, page = 1 } = req.query
   res.send({
     data,
     record: {
-      current: page,
-      pages: Math.ceil(totalLogs / limit),
+      current: Number(page),
+      pages: Math.ceil(totalLogs / perPage),
       total: totalLogs,
     },
   });
