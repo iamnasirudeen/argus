@@ -57,9 +57,9 @@ async function signIn(req, res) {
 }
 
 async function getAppSettings(req, res) {
-  const authentcation = argusManager.getConfigValue("authentication");
+  const authentication = argusManager.getConfigValue("authentication");
 
-  if (typeof authentcation === "boolean" && authentcation === false)
+  if (typeof authentication === "boolean" && authentication === false)
     return res.send({ authentication: false });
   else {
     return res.send({ authentication: true });
