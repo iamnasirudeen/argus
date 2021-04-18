@@ -1,6 +1,6 @@
 {
   "name": "argus-staging-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "app/index.js",
   "license": "MIT",
   "dependencies": {
