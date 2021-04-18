@@ -5,9 +5,7 @@ An HTTP request logger built for express.js devs.
 
 Argus is a request logger and viewer for [ExpressJS](https://expressjs.com). It allows developers log and view http requests made to their web application.
 
-<img width="1461" alt="Argus" src="https://ibb.co/zH2kGvx">
-
-<img width="1461" alt="Argus" src="https://ibb.co/6R07GbB">
+<img width="1461" alt="Argus" src="https://i.ibb.co/fGNc4wF/Argus-Logger-Google-Chrome-4-18-2021-9-09-25-PM.png">
 
 ## Installation 
 
@@ -52,9 +50,9 @@ module.exports = app;
 
 ### Serve dashboard
 
-<img width="1461" alt="Argus" src="https://ibb.co/zH2kGvx">
+<img width="1461" alt="Argus" src="https://i.ibb.co/fGNc4wF/Argus-Logger-Google-Chrome-4-18-2021-9-09-25-PM.png">
 
-<img width="1461" alt="Argus" src="https://ibb.co/6R07GbB">
+<img width="1461" alt="Argus" src="https://i.ibb.co/3ym9VWz/Argus-Logger-Google-Chrome-4-18-2021-9-09-40-PM.png">
 
 >**NOTE**<br/>
 > Visit `/{baseURL}` !.e /logs on the port configured or the application port (depending on your config) to view the dashboard
