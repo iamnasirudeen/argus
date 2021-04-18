@@ -13,7 +13,12 @@ const {
 const { log } = require("../utils");
 
 function handleServerRequest(options, app) {
-  const { port, server, baseURL, authentication } = options;
+  let { port, server, baseURL, authentication } = options;
+
+  // Handle root URL for baseURL
+  baseURL = baseURL.trim();
+
+  if (baseURL === "/") baseURL === "";
 
   // If port is provided, serve all requests only on the provided port
   if (port && typeof port === "number") {
@@ -26,11 +31,11 @@ function handleServerRequest(options, app) {
 
     // Register all middlewares
     argusExpressServer.use(
-      baseURL,
+      baseURL + "/",
       express.static(path.join(__dirname, "..", "static"))
     );
 
-    argusExpressServer.get(baseURL, getIndex);
+    argusExpressServer.get(baseURL + "/", getIndex);
     argusExpressServer.get(baseURL + "/api/logs", getApiData);
 
     // if authentication details is supplied, register the authentication route
@@ -47,9 +52,12 @@ function handleServerRequest(options, app) {
     initSocket(server);
 
     // Register all middlewares
-    app.use(baseURL, express.static(path.join(__dirname, "..", "static")));
+    app.use(
+      baseURL + "/",
+      express.static(path.join(__dirname, "..", "static"))
+    );
 
-    app.get(baseURL, getIndex);
+    app.get(baseURL + "/", getIndex);
     app.get(baseURL + "/api/logs", getApiData);
 
     // if authentication details is supplied, register the authentication route
